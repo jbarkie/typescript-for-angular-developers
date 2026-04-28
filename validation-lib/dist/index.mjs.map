@@ -1,0 +1,1 @@
+{"version":3,"file":"index.mjs","names":[],"sources":["../src/validators.ts"],"sourcesContent":["export function required(value: string) {\r\n    return { valid: value.trim().length > 0 }\r\n}"],"mappings":";AAAA,SAAgB,SAAS,OAAe;AACpC,QAAO,EAAE,OAAO,MAAM,MAAM,CAAC,SAAS,GAAG"}
