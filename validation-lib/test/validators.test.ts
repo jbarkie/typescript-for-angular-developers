@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { compose, exactLength, maxLength, minLength, required } from "../src";
+import { compose, email, exactLength, max, maxLength, min, minLength, required, url } from "../src";
 
 describe("required", () => {
     it("passes for a non-empty string", () => {
@@ -43,21 +43,46 @@ describe("required", () => {
         expect(stateCodeValidator("OH").valid).toBe(true);
         expect(stateCodeValidator("O").valid).toBe(false);
         
-        // const scValidator = exactLength(2);
-        // expect(scValidator("OH").valid).toBe(true);
-        // expect(scValidator("O").valid).toBe(false);
-
+        const scValidator = exactLength(2);
+        expect(scValidator("OH").valid).toBe(true);
+        expect(scValidator("O").valid).toBe(false);
     });
 
-    describe.skip("Min and Max Numbers", () => {
+    describe("Min and Max Numbers", () => {
+        it("does minimum", () => {
+            const minOf10 = min(10);
+            expect(minOf10(10).valid).toBe(true);
+            expect(minOf10(9).valid).toBe(false);
+        });
 
+        it("does maximum", () => {
+            const maxOf10 = max(10);
+            expect(maxOf10(10).valid).toBe(true);
+            expect(maxOf10(11).valid).toBe(false);
+        });
     });
 
-    describe.skip("Email Addresses", () => {
-        
+    describe("Email Addresses", () => {
+        it('does email', () => {
+            const validEmailAddr = "testing@test.com";
+            const invalidEmailAddr = "@testing";
+
+            expect(email(validEmailAddr).valid).toBe(true);
+            expect(email(invalidEmailAddr).valid).toBe(false);
+        })
     });
 
-    describe.skip("Url", () => {
+    describe("Url", () => {
+        it('does URL', () => {
+            const validURL = "https://www.test.com/";
+            const invalidURL = "./test.exe";
+
+            expect(url(validURL).valid).toBe(true);
+            expect(url(invalidURL).valid).toBe(false);
+        })
+    });
+
+    describe.skip("Credit Card Number using Mod 10 / Luhn", () => {
 
     });
 })

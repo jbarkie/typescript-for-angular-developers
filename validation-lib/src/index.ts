@@ -2,9 +2,22 @@
 // it's a way to have things broken across multiple files, but appear as one
 
 export {
+    compose,
+    exactLength,
+    min,
+    max,
+    email,
+    url,
+    ok,
+    fail
+} from './internal/validators.js'
+
+export {
+    isValidCreditCard
+} from './internal/advanced-validators.js'
+
+export {
     required,
     minLength,
-    maxLength,
-    compose,
-    exactLength
-} from './validators.js'
+    maxLength
+} from './internal/string-validators.js'
