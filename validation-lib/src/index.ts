@@ -21,3 +21,7 @@ export {
     minLength,
     maxLength
 } from './internal/string-validators.js'
+
+export {
+    type SeatType, getSeatCost
+} from './internal/seating.js'

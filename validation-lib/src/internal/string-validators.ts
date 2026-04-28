@@ -1,9 +1,10 @@
 import type { Validator } from "../types"
 import { fail, ok } from "./validators"
 
-export const required: Validator<string> = (value) => 
-    value.trim().length > 0 ? ok : fail('value is required')
-
+export const required: Validator<string> = (value) => {
+    value = value ?? ""; // only for JavaScript - not gonna be an issue for TS
+    return value.trim().length > 0 ? ok : fail('value is required')
+}
 
 export const minLength = 
 (n: number) : Validator<string> => 

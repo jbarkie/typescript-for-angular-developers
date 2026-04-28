@@ -17,6 +17,16 @@ describe("required", () => {
         }
     });
 
+    it("required does not allow null or undefined", () => {
+        // @ts-expect-error writing a test
+        const resultUndefined = required(undefined);
+        // @ts-expect-error writing a test
+        const resultNull = required(null);
+
+        expect(resultUndefined.valid).toBe(false);
+        expect(resultNull.valid).toBe(false);
+    })
+
     it('minLength passes', () => {
         const atLeastFiveLettersLong = minLength(5); // higher order function
         expect(atLeastFiveLettersLong("12345").valid).toBe(true);
