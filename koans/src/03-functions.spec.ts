@@ -1,3 +1,4 @@
+import { run } from 'node:test';
 import { describe, it, expect } from 'vitest';
 
 // 03 — Functions
@@ -11,7 +12,7 @@ describe('function declarations', () => {
   it('takes inputs and returns an output', () => {
     // TODO: implement `add` so it returns the sum of its two arguments.
     function add(a: number, b: number): number {
-      return 0;
+      return a + b;
     }
     expect(add(2, 3)).toBe(5);
     expect(add(10, 20)).toBe(30);
@@ -24,7 +25,7 @@ describe('function declarations', () => {
     }
     // TODO: what is the inferred return type of `multiply`?
     //       Fix the annotation on `product` so this compiles.
-    const product: string = multiply(4, 5);
+    const product: number = multiply(4, 5);
     expect(product).toBe(20);
   });
 });
@@ -38,7 +39,9 @@ describe('arrow functions', () => {
     const squareB = (n: number): number => n * n;
 
     // TODO: write a third version using the arrow form, with a block body and an explicit return.
-    const squareC = (n: number): number => 0;
+    const squareC = (n: number): number => {
+      return n * n;
+    };
 
     expect(squareA(4)).toBe(16);
     expect(squareB(4)).toBe(16);
@@ -47,9 +50,7 @@ describe('arrow functions', () => {
 
   it('a single-expression arrow can omit the braces and the return keyword', () => {
     // TODO: rewrite this as a one-liner with no braces and no `return`.
-    const double = (n: number): number => {
-      return n * 2;
-    };
+    const double = (n: number): number => n * 2;
     expect(double(3)).toBe(6);
   });
 
@@ -64,7 +65,7 @@ describe('arrow functions', () => {
 describe('optional and default parameters', () => {
   it('optional parameters use a ? and may be undefined at call-time', () => {
     // TODO: add a `?` to make `title` optional.
-    function greet(name: string, title: string): string {
+    function greet(name: string, title?: string): string {
       if (title === undefined) {
         return `Hello, ${name}`;
       }
@@ -76,7 +77,7 @@ describe('optional and default parameters', () => {
 
   it('default parameters provide a fallback — no check required', () => {
     // TODO: give `exclamations` a default value of 1 so the first call works.
-    function shout(message: string, exclamations: number): string {
+    function shout(message: string, exclamations: number = 1): string {
       return message + '!'.repeat(exclamations);
     }
     expect(shout('hey')).toBe('hey!');
@@ -88,8 +89,8 @@ describe('rest parameters', () => {
   it('rest parameters gather remaining arguments into an array', () => {
     // TODO: implement `sum` using the rest-parameter syntax so it adds any number of args.
     //       Hint: `...numbers: number[]` in the parameter list.
-    function sum(): number {
-      return 0;
+    function sum(...numbers: number[]): number {
+      return numbers.reduce((total, n)  => total + n, 0);
     }
     expect(sum(1, 2, 3)).toBe(6);
     expect(sum(10, 20, 30, 40)).toBe(100);
@@ -108,7 +109,7 @@ describe('functions as values — the mental shift', () => {
     const greet = (name: string): string => `Hello, ${name}`;
 
     // TODO: call `greet` with any name and assert on the result.
-    const result = '';
+    const result = greet('Grace');
     expect(result).toBe('Hello, Grace');
   });
 
@@ -121,7 +122,7 @@ describe('functions as values — the mental shift', () => {
     const addOne = (n: number): number => n + 1;
 
     // TODO: pass `addOne` to `applyTwice` with the starting value 5.
-    const result = 0;
+    const result = applyTwice(addOne, 5);
     expect(result).toBe(7);
   });
 
@@ -136,8 +137,8 @@ describe('functions as values — the mental shift', () => {
     const tenX = makeMultiplier(10);
 
     // TODO: use `triple` and `tenX` to make these assertions pass.
-    expect(triple(4)).toBe(0);
-    expect(tenX(7)).toBe(0);
+    expect(triple(4)).toBe(12);
+    expect(tenX(7)).toBe(70);
   });
 
   it('you can describe the shape of a function as a type', () => {
@@ -146,8 +147,8 @@ describe('functions as values — the mental shift', () => {
     type Formatter = (input: string) => string;
 
     // TODO: implement `shout` and `whisper` so both match the Formatter shape.
-    const shout: Formatter = (input) => '';
-    const whisper: Formatter = (input) => '';
+    const shout: Formatter = (input) => input.toLocaleUpperCase();
+    const whisper: Formatter = (input) => "(" + input.toLowerCase() + ")";
 
     expect(shout('hello')).toBe('HELLO');
     expect(whisper('hello')).toBe('(hello)');
