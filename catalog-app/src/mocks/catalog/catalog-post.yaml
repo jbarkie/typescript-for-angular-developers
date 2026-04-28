@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=https://unpkg.com/@hypertheory-labs/msw-lens/schema/manifest.schema.json
+
+endpoint: /api/catalog
+method: POST
+description: Add a new item to the software catalog. Payload is a CreateCatalogItem (kind + variant-specific fields).
+
+responseType:
+  name: CatalogItem
+  path: src/app/areas/catalog/types.ts
+
+errorType:
+  name: ValidationError
+  path: src/app/areas/catalog/types.ts
+
+context:
+  sourceHints:
+    - src/app/areas/catalog/add.ts
+  hints:
+    - The form starts life as a plain signal-per-field and gets rewritten to a typed signal form + Zod on Day 3.
+    - validation-error scenario is shaped to demo form-field-level error binding when the server returns 400.
+
+scenarios:
+  created:
+    description: Happy path — returns the created item with a server-assigned id.
+    active: true
+
+  validation-error:
+    description: 400 with field-level errors. Exercises the form's per-field error surface.
+    httpStatus: 400
+
+  server-error:
+    description: 500. Exercises whatever the form does when the submit fails at a system level.
+    httpStatus: 500
+
+  slow:
+    description: Same as created, but 2-second delay. Exercises the pending/disabled state of the submit button.
+    delay: 2000

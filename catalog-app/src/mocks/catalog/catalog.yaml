@@ -1,0 +1,36 @@
+# yaml-language-server: $schema=https://unpkg.com/@hypertheory-labs/msw-lens/schema/manifest.schema.json
+
+endpoint: /api/catalog
+method: GET
+shape: collection
+description: The company software catalog — list all approved applications, libraries, and services.
+
+responseType:
+  name: CatalogItem
+  path: src/app/areas/catalog/types.ts
+
+context:
+  sourceHints:
+    - src/app/areas/catalog/list.ts
+  hints:
+    - Each item is a discriminated union variant (application | library | service); the UI narrows on `item.kind`.
+    - The malformed-data scenario is the Day 3 Zod-at-the-boundary demo — flip to it to show that TypeScript trusts the cast and Zod doesn't.
+
+scenarios:
+  typical:
+    description: Six seeded items — two of each variant. Exercises the `@for` grid and the kind-narrowing branches.
+    active: true
+
+  empty:
+    description: Zero items — exercises the `@empty` branch of the list template.
+
+  server-error:
+    description: 500 from the server — exercises the error branch of the discriminated-union list state.
+    httpStatus: 500
+
+  slow:
+    description: Same as typical, but 3-second delay — lets the instructor linger on the loading branch.
+    delay: 3000
+
+  malformed-data:
+    description: Well-shaped-looking response with wrong types — licenseCount as a string, missing fields. Compiles because handlers cast; breaks at the UI. The setup for the Zod reveal on Day 3.
