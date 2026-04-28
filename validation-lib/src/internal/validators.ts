@@ -52,6 +52,10 @@ export const url: Validator<string> = (value) => {
     }
 }
 
+export const isEven = 
+(n: number) => (value: number): ValidationResult =>
+    value % 2 === 0 ? ok : fail('must be even')
+
 /*
 export function required(value: string) {
     if (value.trimEnd().length > 0) {
