@@ -1,0 +1,17 @@
+{
+  "name": "typescript-koans",
+  "version": "1.0.0",
+  "description": "Short, focused TypeScript exercises. Fill in the blanks, make the tests pass.",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "vitest",
+    "test:once": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^22.9.0",
+    "typescript": "^5.7.2",
+    "vitest": "^3.0.5"
+  }
+}

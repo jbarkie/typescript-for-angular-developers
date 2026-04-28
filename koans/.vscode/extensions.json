@@ -1,0 +1,8 @@
+{
+  "recommendations": [
+    "esbenp.prettier-vscode",
+    "vitest.explorer",
+    "orta.vscode-twoslash-queries",
+    "mskelton.npm-outdated"
+  ]
+}
