@@ -1,3 +1,7 @@
+import { fail } from "assert";
+import { none, Option, some } from "./option";
+import { Results, succeeded } from "./results";
+
 declare const brand: unique symbol;
 export type Brand<T, TBrand> = T & { [brand]: TBrand}
 
@@ -13,14 +17,14 @@ type Department = {
 type BrandedEmployee = Brand<Employee, "Employee">;
 type BrandedDepartment = Brand<Department, "Department">;
 
-export function getEmployeeById(id: string) {
+export function getEmployeeById(id: string): Option<BrandedEmployee> {
   if(id === '999') {
-    return null;
+    return none;
   }
-  return {
+  return some({
     id,
     name: 'Test Employee',
-  } as BrandedEmployee;
+  } as BrandedEmployee);
 }
 
 export function getDepartments(): BrandedDepartment[] {
@@ -54,6 +58,7 @@ export function assignDepartment(emp:HiringRequest, dep: BrandedDepartment) {
   // do something.
   return emp as unknown as AssignedEmployee;
 }
-export function saveNewEmployee(emp: AssignedEmployee ) {
-
+export function saveNewEmployee(emp: AssignedEmployee ) : Results<string> {
+  //return fail('Did not work')
+  return succeeded("did it");
 }
