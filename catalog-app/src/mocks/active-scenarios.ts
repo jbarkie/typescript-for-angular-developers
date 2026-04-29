@@ -5,7 +5,8 @@
  */
 const activeScenarios: Record<string, string> = {
   'GET /api/catalog': 'typical',
-  'POST /api/catalog': 'validation-error',
+  'POST /api/catalog': 'server-error',
+  'GET /api/books': 'slow',
 };
 
 export default activeScenarios;

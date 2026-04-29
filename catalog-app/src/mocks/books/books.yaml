@@ -1,0 +1,49 @@
+# yaml-language-server: $schema=https://unpkg.com/@hypertheory-labs/msw-lens/schema/manifest.schema.json
+
+endpoint: https://some-api.someserver.com
+method: GET
+shape: collection
+description: The books shown on the books list page.
+
+responseType:
+  name: BookApiItem
+  path: src/app/areas/books/types/book-types.ts
+
+context:
+  sourceHints:
+    - src/app/areas/books/stores/books-store.ts
+    - src/app/areas/books/pages/list.ts
+  hints:
+    - The signal store fetches on `onInit`; the page itself only renders `store.entities()`.
+    - The crawled files show no explicit loading, empty, timeout, or error UI yet, so those scenarios are intended to surface today's silent behavior and support future UI states.
+    - No auth guard or retry flow is in scope, so the unauthorized scenario is an assumption rather than an observed requirement.
+
+scenarios:
+  typical:
+    description: Tests that the page renders the normal list of books on first load.
+    active: true
+
+  empty:
+    description: Tests that the page stays stable when the fetch succeeds with no books; with the current template the heading remains and the list renders no items.
+
+  overloaded:
+    description: Tests that a much longer result set still renders legibly and does not overwhelm the list layout.
+
+  unauthorized:
+    description: Tests session-expiry handling if this fetch becomes protected later; no redirect or guard is visible in the crawled files.
+    httpStatus: 401
+
+  server-error:
+    description: Tests how the page behaves when the initial books load fails; current source has no explicit error surface, so this exposes the missing recovery path.
+    httpStatus: 500
+
+  slow:
+    description: Tests the pending state during the initial fetch; current source has no spinner or skeleton yet, so this helps reveal whether the blank interval is acceptable.
+    delay: "4s"
+
+  timeout:
+    description: Tests whether the page can recover from a request that never resolves once timeout or cancel UX is added.
+    delay: infinite
+
+  malformed-data:
+    description: Tests resilience when required book fields arrive as null or wrong types and the list interpolates unexpected values.

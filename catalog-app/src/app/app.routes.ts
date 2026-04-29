@@ -7,6 +7,10 @@ export const routes: Routes = [
     path: 'catalog',
     loadChildren: () => import('./areas/catalog/catalog.routes').then((m) => m.catalogRoutes),
   },
+  {
+    path: 'books',
+    loadChildren: () => import('./areas/books/books-routes').then(m => m.booksRoutes)
+  },
   { path: '**', redirectTo: 'catalog' },
 ];
 

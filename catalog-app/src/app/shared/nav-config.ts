@@ -17,4 +17,7 @@ export type NavSection = {
 export const NAV_SECTIONS = [
   { label: 'Catalog', path: '/catalog' },
   { label: 'Add', path: '/catalog/add' },
+  {
+    label: 'Books', path: '/books'
+  }
 ] as const satisfies readonly NavSection[];
