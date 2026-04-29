@@ -180,21 +180,21 @@ describe('higher-order functions on arrays — map, filter, reduce', () => {
 
     // The map way:
     // TODO: use .map to produce the same array — each price multiplied by 1.08.
-    const withTaxMap: number[] = [];
+    const withTaxMap: number[] = prices.map((price) => price * 1.08)
 
     expect(withTaxMap).toEqual(withTaxLoop);
   });
 
   it('filter keeps items that match a predicate', () => {
     // TODO: use .filter to keep only prices above 10.
-    const overTen: number[] = [];
+    const overTen: number[] = prices.filter((price) => price > 10);
     expect(overTen).toEqual([14.5, 29.99, 49.0]);
   });
 
   it('reduce combines an array into a single value', () => {
     // The second argument to reduce is the starting value.
     // TODO: use .reduce to sum all the prices.
-    const total = 0;
+    const total = prices.reduce((price, n) => price + n, 0)
     expect(total).toBeCloseTo(107.73, 2);
   });
 
@@ -210,11 +210,11 @@ describe('higher-order functions on arrays — map, filter, reduce', () => {
 
     // TODO: compute the total price of approved items using filter and reduce (in one chain).
     //       Hint: items.filter(...).reduce(...)
-    const approvedTotal = 0;
+    const approvedTotal = catalog.filter((item) => item.approved).reduce((total, item) => total + item.price, 0)
     expect(approvedTotal).toBe(248);
 
     // TODO: produce a list of just the names of approved items, using filter and map.
-    const approvedNames: string[] = [];
+    const approvedNames: string[] = catalog.filter(item => item.approved).map(item => item.name)
     expect(approvedNames).toEqual(['Editor Pro', 'Shell Plus', 'Diagrammer']);
   });
 

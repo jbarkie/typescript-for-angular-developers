@@ -15,11 +15,15 @@ describe('type aliases — giving a shape a name', () => {
     // TODO: define a type alias named `CatalogEntry` with the properties
     //       `name: string` and `vendor: string`.
     // type CatalogEntry = ...
-
+    type CatalogEntry = {
+      name: string;
+      vendor: string;
+    }
+  
     // Uncomment the following lines once the type exists:
-    // const editor: CatalogEntry = { name: 'Editor Pro', vendor: 'Acme' };
-    // expect(editor.name).toBe('Editor Pro');
-    expect(true).toBe(true); // remove this line once the real assertions are active
+    const editor: CatalogEntry = { name: 'Editor Pro', vendor: 'Acme' };
+    expect(editor.name).toBe('Editor Pro');
+    // expect(true).toBe(true); // remove this line once the real assertions are active
   });
 });
 
@@ -35,7 +39,7 @@ describe('literal types — narrowing a type to specific values', () => {
   it('literal types combine into unions — the workhorse pattern', () => {
     // TODO: define `Status` as a union of three literal strings:
     //       'approved', 'under-review', 'deprecated'
-    type Status = string; // fix this
+    type Status = 'approved' | 'under-review' | 'deprecated'; // fix this
 
     const s1: Status = 'approved';
     const s2: Status = 'under-review';
@@ -57,7 +61,7 @@ describe('literal types — narrowing a type to specific values', () => {
 describe('union types — "this or that"', () => {
   it('a value can be one of several types', () => {
     // TODO: type `id` so it can be either a string OR a number.
-    let id: string = '';
+    let id: string | number = '';
 
     id = 'abc-123';
     id = 42;
@@ -69,7 +73,7 @@ describe('union types — "this or that"', () => {
       // TODO: check whether `id` is a string, and if so return `id: ` followed by the uppercase version.
       //       Otherwise return `id: ` followed by the id as-is.
       //       Hint: `typeof id === 'string'`
-      return '';
+      return (typeof id === 'string') ? `id: ${id.toUpperCase()}` : `id: ${id}`
     }
 
     expect(describeId('abc-123')).toBe('id: ABC-123');
@@ -83,7 +87,7 @@ describe('intersection types — combining shapes with &', () => {
     type HasPrice = { price: number };
 
     // TODO: define `PricedNamedThing` as the intersection of HasName and HasPrice.
-    type PricedNamedThing = HasName; // fix this
+    type PricedNamedThing = HasName & HasPrice; // fix this
 
     const editor: PricedNamedThing = { name: 'Editor Pro', price: 99 };
     expect(editor.name).toBe('Editor Pro');
@@ -95,7 +99,7 @@ describe('intersection types — combining shapes with &', () => {
     type Approved = { status: 'approved'; approvedAt: string };
 
     // TODO: define `ApprovedCatalogEntry` as the intersection of `CatalogEntry` and `Approved`.
-    type ApprovedCatalogEntry = CatalogEntry;
+    type ApprovedCatalogEntry = CatalogEntry & Approved;
 
     const entry: ApprovedCatalogEntry = {
       name: 'Editor Pro',
@@ -153,9 +157,9 @@ describe('discriminated unions — the real payoff', () => {
     // TODO: inside the block, return the vendor. Outside, return 'not an app'.
     function vendorOrNothing(i: CatalogItem): string {
       if (i.kind === 'application') {
-        return '';
+        return i.vendor;
       }
-      return '';
+      return 'not an app';
     }
 
     expect(vendorOrNothing(item)).toBe('Acme');
@@ -172,11 +176,11 @@ describe('discriminated unions — the real payoff', () => {
     function summarize(item: CatalogItem): string {
       switch (item.kind) {
         case 'application':
-          return '';
+          return `${item.name} (${item.licenseCount} licenses)`;
         case 'library':
-          return '';
+          return `${item.name} v${item.version}`;
         case 'service':
-          return '';
+          return `${item.name} — $${item.monthlyCost}/mo`;
       }
     }
 
@@ -214,6 +218,8 @@ describe('discriminated unions — the real payoff', () => {
           return item.name;
         case 'service':
           return item.name;
+        default:
+          return assertNever(item);
       }
     }
 
