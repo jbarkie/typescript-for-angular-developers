@@ -1,0 +1,16 @@
+{
+  "name": "jsdemo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "@hypertheory-labs/validation-lib": "file:../validation-lib/hypertheory-labs-validation-lib-0.1.0.tgz"
+  }
+}
